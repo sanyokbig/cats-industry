@@ -1,4 +1,4 @@
-import '../../api/ajax/server/ajax.js';
+import '../../api/sys/server/ajax.js';
 
 import '../../api/jobs/methods.js';
 import '../../api/jobs/server/publications.js';

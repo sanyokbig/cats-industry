@@ -6,6 +6,21 @@ import {HTTP} from 'meteor/http';
 
 export const Ajax = {};
 
+Ajax.getKeyInfo = (keyID, vCode)=>{
+    return new Promise((resolve,reject)=>{
+        HTTP.get('https://api.eveonline.com/account/APIKeyInfo.xml.aspx', {
+            params: {keyID,vCode}
+        },(err,res)=>{
+            if(err) {
+                reject(err)
+            } else {
+                let parsed = xml2js.parseStringSync(res.content);
+                resolve(parsed);
+            }
+        });
+    });
+};
+
 Ajax.getJobs = function(keyID,vCode,type,charID){
     return new Promise((resolve, reject)=>{
         let params = {

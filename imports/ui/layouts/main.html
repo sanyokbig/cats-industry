@@ -2,9 +2,17 @@
     <header>
         {{#if currentUser}}
             <div>{{currentUser.profile.name}}</div>
-            <div class="logout">Logout</div>
+            <div>Готово {{completed}} из {{total}} заказов</div>
+            {{#if isCat}}
+                <div>
+                    <label>KeyID<input name="keyID"></label>
+                    <label>VCode<input name="vCode"></label>
+                    <button name="add">Add</button>
+                </div>
+            {{/if}}
+            <button class="logout">Logout</button>
         {{else}}
-            <div class="login">Login</div>
+            <button class="login">Login</button>
         {{/if}}
     </header>
     <div></div>
