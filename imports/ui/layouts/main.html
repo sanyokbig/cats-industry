@@ -1,0 +1,12 @@
+<template name="main">
+    <header>
+        {{#if currentUser}}
+            <div>{{currentUser.profile.name}}</div>
+            <div class="logoff">Logoff</div>
+        {{else}}
+            <div class="login">Login</div>
+        {{/if}}
+    </header>
+    <div></div>
+    <footer></footer>
+</template>
