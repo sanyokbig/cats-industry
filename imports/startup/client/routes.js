@@ -4,12 +4,14 @@
 import {FlowRouter} from 'meteor/kadira:flow-router';
 import {BlazeLayout} from 'meteor/kadira:blaze-layout';
 
-import '../../ui/layouts/MainLayout';
+import '../../ui/layouts/main.js';
+
+import '../../ui/components/job.js';
 
 
 FlowRouter.route('/',{
     name: 'main',
     action: ()=>{
-        BlazeLayout.render('MainLayout');
+        BlazeLayout.render('main');
     }
 });
