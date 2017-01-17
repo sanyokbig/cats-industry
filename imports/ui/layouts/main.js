@@ -27,5 +27,9 @@ Template.main.events({
     },
     'click .logout'(){
         Meteor.logout();
+    },
+    'submit .add'(e){
+        e.preventDefault();
+        Meteor.call('keys.add',e.target.keyID.value,e.target.vCode.value);
     }
 });

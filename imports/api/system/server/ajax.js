@@ -12,7 +12,8 @@ Ajax.getKeyInfo = (keyID, vCode)=>{
             params: {keyID,vCode}
         },(err,res)=>{
             if(err) {
-                reject(err)
+                let parsed = xml2js.parseStringSync(err.response.content);
+                reject(parsed)
             } else {
                 let parsed = xml2js.parseStringSync(res.content);
                 resolve(parsed);
