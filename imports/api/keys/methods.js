@@ -23,14 +23,21 @@ Meteor.methods({
                         } else {
                             key.type = 'corp';
                         }
-                        console.log(key);
-                        //TODO Проверить правильность добавления ключа
-                        Keys.insert(key);
+                        if (Keys.findOne({keyID: key.keyID})) {
+                            console.log(key);
+                            Keys.update({keyID: key.keyID}, {$set: key});
+                        } else {
+                            Keys.insert(key);
+                        }
                     }
                 })
                 .catch(error => {
                     console.log(error.eveapi.error[0]._);
                 })
         }
+    },
+    'keys.update'(){
+        //TODO  обновить данные, удалить, если ошибка доступа
+
     }
 })

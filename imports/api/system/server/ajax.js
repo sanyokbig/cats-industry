@@ -34,11 +34,12 @@ Ajax.getJobs = function(keyID,vCode,type,charID){
                     params
                 }, (err, res) => {
                     if (err) {
-                        throw new Error(err);
+                        let parsed = xml2js.parseStringSync(err.response.content);
+                        reject(parsed)
                     } else {
-                        //TODO Сделать асинхронный прарсинг
-                        let xml = xml2js.parseStringSync(res);
-                        resolve(xml);
+                        xml2js.parseString(res.content,(err,res)=>{
+                            resolve(res);
+                        });
                     }
                 }
             );
