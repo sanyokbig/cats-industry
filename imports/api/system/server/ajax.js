@@ -36,6 +36,7 @@ Ajax.getJobs = function(keyID,vCode,type,charID){
                     if (err) {
                         throw new Error(err);
                     } else {
+                        //TODO Сделать асинхронный прарсинг
                         let xml = xml2js.parseStringSync(res);
                         resolve(xml);
                     }

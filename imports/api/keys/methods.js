@@ -25,7 +25,7 @@ Meteor.methods({
                         }
                         console.log(key);
                         //TODO Проверить правильность добавления ключа
-                        Keys.add(key);
+                        Keys.insert(key);
                     }
                 })
                 .catch(error => {
