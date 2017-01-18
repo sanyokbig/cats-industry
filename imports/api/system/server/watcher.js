@@ -10,20 +10,21 @@ import {Ajax} from '../../system/server/ajax';
 Meteor.setTimeout(() => {
     for (let key of Keys.find({}).fetch()) {
         //TODO Проверять ключ, если все ок, работаем
-        /*
-        Meteor.call('keys.update',key,(res)=>{
 
-        });*/
+        // Meteor.call('keys.update', key, (error,result) => {
+        //     //console.log(error,result);
+        // });
+        /*
         try {
             Ajax.getJobs(key.keyID, key.vCode, key.type, key.owner)
                 .then(res => {
                     console.log(res.eveapi.result[0].rowset[0].$);
                 })
-                .catch(err=>{
+                .catch(err => {
                     console.log(err.eveapi.error[0]._);
                 })
         } catch (e) {
             console.log(e)
-        }
+        }*/
     }
 }, 1000);
