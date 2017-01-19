@@ -7,13 +7,16 @@ import {Ajax} from '../../system/server/ajax';
 
 //TODO Пробуем подтянуть работы с каждого ключа и записать в работы.
 
+
+
 Meteor.setTimeout(() => {
+
     for (let key of Keys.find({}).fetch()) {
         //TODO Проверять ключ, если все ок, работаем
-
-        // Meteor.call('keys.update', key, (error,result) => {
-        //     //console.log(error,result);
-        // });
+        //TODO Разобраться с колбеком и работать при валидном ключе
+        console.log(Meteor.call('keys.update', key,(error,result)=>{
+            console.log(error,result);
+        }));
         /*
         try {
             Ajax.getJobs(key.keyID, key.vCode, key.type, key.owner)

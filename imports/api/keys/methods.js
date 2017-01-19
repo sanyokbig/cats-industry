@@ -38,40 +38,44 @@ Meteor.methods({
     },
     'keys.update'(key){
         //TODO проверить маску, обновить тип ключа, удалить, если ошибка доступа или маска не та
-        //TODO Корректно возвращать промис
-        //return new Promise((res,rej)=>{});
-        return new Promise((resolve,reject)=>{
+        if (!Meteor.isSimulation) {
             Ajax.getKeyInfo(key.keyID, key.vCode)
                 .then(response => {
                     response = response.eveapi.result[0].key[0];
-                    let keyInfo = response.$;
+                    let keyInfo = response.$,
+                        charInfo = response.rowset[0].row[0].$,
+                        newType;
                     //Актуальность маски
                     if (Bit.mask(keyInfo.accessMask, 128)) {
                         if (keyInfo.type === 'Character') {
-                            key.type = 'char';
+                            newType = 'char';
                         } else {
-                            key.type = 'corp';
+                            newType = 'corp';
                         }
-                        Keys.update({keyID: key.keyID}, {$set: key});
-                        resolve(123);
+                        if (newType !== key.type) {
+                            console.log('updating key');
+                            console.log(key);
+                            Keys.update(key._id, {$set: key});
+                        } else {
+                            console.log('key is good');
+                            return 'gone'
+                        }
                     } else {
-                        Meteor.call('keys.remove', key._id);
-                        resolve(0);
+                        //Маска не подходит, пропускаем
+                        console.log('Маска не подходит, пропускаем');
                     }
                 })
                 .catch(error => {
-                    console.log(error.eveapi.error[0]._ + '. Key ' +key.keyID+ 'will be deleted');
-                    Meteor.call('keys.remove', key._id);
-                    resolve(0);
+                    console.log(error.eveapi.error[0]._);
                 })
-        });
+        }
 
     },
     'keys.remove'(_id){
         try {
             Keys.remove({_id});
             console.log('Key removed');
-        } catch (err){
+        } catch (err) {
             console.log(err);
         }
     }
