@@ -40,7 +40,7 @@ Schemas.Job = new SimpleSchema({
         label: 'Completed Date'
     },
     accessList: {
-        type: [String],
+        type: Array,
         label: 'Access List'
     }
 });

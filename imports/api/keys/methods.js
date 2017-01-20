@@ -3,7 +3,7 @@ import {Meteor} from 'meteor/meteor';
 import {Keys} from './keys';
 import {Ajax} from '../system/server/ajax';
 import {Bit} from '../system/server/bit';
-
+let Future = Npm.require('fibers/future');
 Meteor.methods({
     'keys.add'(keyID, vCode){
         if (!Meteor.isSimulation) {
@@ -38,38 +38,38 @@ Meteor.methods({
     },
     'keys.update'(key){
         //TODO проверить маску, обновить тип ключа, удалить, если ошибка доступа или маска не та
-        if (!Meteor.isSimulation) {
-            Ajax.getKeyInfo(key.keyID, key.vCode)
-                .then(response => {
-                    response = response.eveapi.result[0].key[0];
-                    let keyInfo = response.$,
-                        charInfo = response.rowset[0].row[0].$,
-                        newType;
-                    //Актуальность маски
-                    if (Bit.mask(keyInfo.accessMask, 128)) {
-                        if (keyInfo.type === 'Character') {
-                            newType = 'char';
-                        } else {
-                            newType = 'corp';
-                        }
-                        if (newType !== key.type) {
-                            console.log('updating key');
-                            console.log(key);
-                            Keys.update(key._id, {$set: key});
-                        } else {
-                            console.log('key is good');
-                            return 'gone'
-                        }
-                    } else {
-                        //Маска не подходит, пропускаем
-                        console.log('Маска не подходит, пропускаем');
-                    }
-                })
-                .catch(error => {
-                    console.log(error.eveapi.error[0]._);
-                })
-        }
+        let future = new Future();
 
+        Ajax.getKeyInfo(key.keyID, key.vCode)
+            .then(response => {
+                response = response.eveapi.result[0].key[0];
+                let keyInfo = response.$,
+                    charInfo = response.rowset[0].row[0].$,
+                    newType;
+                //Актуальность маски
+                if (Bit.mask(keyInfo.accessMask, 128)) {
+                    if (keyInfo.type === 'Character') {
+                        newType = 'char';
+                    } else {
+                        newType = 'corp';
+                    }
+
+                    if (newType !== key.type) {
+                        console.log('updating key');
+                        console.log(key.type + ' => '+ newType);
+                        key.type = newType;
+                        Keys.update(key._id, {$set: key});
+                    }
+                    future.return(key);
+                } else {
+                    //Маска не подходит, пропускаем
+                    future.throw('Wrong mask: ' + keyInfo.accessMask);
+                }
+            })
+            .catch(error => {
+                future.throw(error.eveapi.error[0]._);
+            });
+        return future.wait();
     },
     'keys.remove'(_id){
         try {

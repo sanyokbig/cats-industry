@@ -21,7 +21,6 @@ Ajax.getKeyInfo = (keyID, vCode)=>{
         });
     });
 };
-
 Ajax.getJobs = function(keyID,vCode,type,charID){
     return new Promise((resolve, reject)=>{
         let params = {
@@ -30,7 +29,7 @@ Ajax.getJobs = function(keyID,vCode,type,charID){
         };
         charID||(params.charID=charID);
         try {
-            HTTP.call('get', 'https://api.eveonline.com/' + type + '/IndustryJobs.xml.aspx', {
+            HTTP.call('get', 'https://api.eveonline.com/' + type + '/IndustryJobsHistory.xml.aspx', {
                     params
                 }, (err, res) => {
                     if (err) {
