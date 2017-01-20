@@ -2,6 +2,15 @@ import {Mongo} from 'meteor/mongo';
 
 import SimpleSchema from 'simpl-schema';
 
+export const StatusNames = {
+    1: 'В процессе',
+    2: 'Приостановлено',
+    3: 'Готово',
+    101: 'Доставлено',
+    102: 'Отменено',
+    103: 'Reverted'
+}
+
 export const Jobs = new Mongo.Collection('jobs');
 
 const Schemas = Schemas || {};

@@ -2,7 +2,8 @@
     <header>
         {{#if currentUser}}
             <div>{{currentUser.profile.name}}</div>
-            <div>Готово {{completed}} из {{total}} заказов</div>
+            <div>В работе:  {{active}}</div>
+            <div>Готово:    {{ready}}</div>
             {{#if isCat}}
                 <form class="add">
                     <label>KeyID<input name="keyID"></label>

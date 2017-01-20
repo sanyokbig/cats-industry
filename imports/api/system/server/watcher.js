@@ -8,9 +8,6 @@ import '../../jobs/methods';
 
 import {Ajax} from '../../system/server/ajax';
 
-//TODO Пробуем подтянуть работы с каждого ключа и записать в работы.
-
-
 Meteor.setTimeout(() => {
     for (let key of Keys.find({}).fetch()) {
         //Проверять ключ, если все ок, работаем

@@ -13,17 +13,21 @@ Template.main.helpers({
     'isCat'(){
         return Meteor.user().profile.name === 'Alexander Bienveillant'
     },
-    'completed'(){
-        return 2;
-    },
-    'total'(){
-        return 5;
-    },
     'settings'(){
         return {
             collection: Jobs,
             fields: ['owner']
         }
+    },
+    'total'(){
+        return Jobs.find({}).count()
+    },
+    'active'(){
+        console.log(Jobs.find().fetch());
+        return Jobs.find({status: 1}).count()
+    },
+    'ready'(){
+        return Jobs.find({status: 3}).count()
     }
 });
 

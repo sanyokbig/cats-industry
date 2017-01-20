@@ -1,2 +1,18 @@
-.cell
-  display: inline-block
+.grid
+  display: table
+
+  & .head
+    display: table-header-group
+
+  & .body
+    display: table-row-group
+
+  & .row
+    display: table-row
+
+    &:nth-child(2n)
+      background-color: #ddd
+
+  & .cell
+    display: table-cell
+    padding: 2px

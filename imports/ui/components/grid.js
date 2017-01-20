@@ -1,6 +1,6 @@
 import {Meteor} from 'meteor/meteor'
 import {Template} from 'meteor/templating'
-import {Jobs} from '../../api/jobs/jobs'
+import {Jobs, StatusNames} from '../../api/jobs/jobs'
 
 import './grid.html'
 import './grid.styl'
@@ -19,6 +19,9 @@ Template.grid.helpers({
     },
     'accessListOpen'(){
         return Session.get('accessListOpen')
+    },
+    'statusName'(status){
+        return StatusNames[status]
     }
 })
 

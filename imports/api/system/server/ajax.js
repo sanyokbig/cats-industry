@@ -22,6 +22,7 @@ Ajax.getKeyInfo = (keyID, vCode)=>{
     });
 };
 Ajax.getJobs = function(keyID,vCode,type,charID){
+    //TODO Так же тянуть активные работы (IndustryJobs), добавлять и те, и другие
     return new Promise((resolve, reject)=>{
         let params = {
             keyID,
