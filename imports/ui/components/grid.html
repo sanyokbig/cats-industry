@@ -1,0 +1,28 @@
+<template name="grid">
+    <div class="grid">
+        <div class="header">
+            <div class="head">
+                <div class="cell">Product</div>
+                <div class="cell">Status</div>
+                <div class="cell">Installer</div>
+                <div class="cell">Start</div>
+                <div class="cell">End</div>
+                <div class="cell">Completition Date</div>
+                <div class="cell">Access List</div>
+            </div>
+        </div>
+        <div class="body">
+            {{#each jobs}}
+                <div class="row">
+                    <div class="cell">{{productTypeName}}</div>
+                    <div class="cell">{{status}}</div>
+                    <div class="cell">{{installerName}}</div>
+                    <div class="cell">{{startDate}}</div>
+                    <div class="cell">{{endDate}}</div>
+                    <div class="cell">{{completedDate}}</div>
+                    <div class="cell">{{accessList}}</div>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</template>

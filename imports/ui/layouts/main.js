@@ -1,7 +1,12 @@
 import {Meteor} from 'meteor/meteor'
 import {Template} from 'meteor/templating'
 
+import {Jobs} from '../../api/jobs/jobs'
+
 import './main.html';
+import '../components/grid.js';
+
+Meteor.subscribe('jobs');
 
 Template.main.helpers({
     'isCat'(){
@@ -12,6 +17,12 @@ Template.main.helpers({
     },
     'total'(){
         return 5;
+    },
+    'settings'(){
+        return {
+            collection: Jobs,
+            fields: ['owner']
+        }
     }
 });
 
