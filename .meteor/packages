@@ -28,3 +28,5 @@ service-configuration
 check
 random
 aldeed:collection2-core
+momentjs:moment
+session

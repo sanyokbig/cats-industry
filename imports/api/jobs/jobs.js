@@ -42,6 +42,9 @@ Schemas.Job = new SimpleSchema({
     accessList: {
         type: Array,
         label: 'Access List'
+    },
+    'accessList.$':{
+        type: String
     }
 });
 

@@ -4,6 +4,7 @@ import {Template} from 'meteor/templating'
 import {Jobs} from '../../api/jobs/jobs'
 
 import './main.html';
+import './main.styl';
 import '../components/grid.js';
 
 Meteor.subscribe('jobs');

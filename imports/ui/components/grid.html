@@ -9,6 +9,7 @@
                 <div class="cell">End</div>
                 <div class="cell">Completition Date</div>
                 <div class="cell">Access List</div>
+                <div class="cell"></div>
             </div>
         </div>
         <div class="body">
@@ -17,12 +18,19 @@
                     <div class="cell">{{productTypeName}}</div>
                     <div class="cell">{{status}}</div>
                     <div class="cell">{{installerName}}</div>
-                    <div class="cell">{{startDate}}</div>
-                    <div class="cell">{{endDate}}</div>
-                    <div class="cell">{{completedDate}}</div>
+                    <div class="cell">{{date startDate}}</div>
+                    <div class="cell">{{date endDate}}</div>
+                    <div class="cell">{{date completedDate}}</div>
                     <div class="cell">{{accessList}}</div>
+                    <div class="cell">
+                        <div class="access">Доступ</div>
+                    </div>
                 </div>
             {{/each}}
         </div>
     </div>
+
+    {{#if accessListOpen}}
+        {{> accessList}}
+    {{/if}}
 </template>
