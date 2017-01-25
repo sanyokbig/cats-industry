@@ -1,18 +1,22 @@
 .grid
-  display: table
-
-  & .head
-    display: table-header-group
-
-  & .body
-    display: table-row-group
-
-  & .row
-    display: table-row
-
+  .head
+    display flex
+    .cell
+      cursor pointer
+  .body
+  .row
+    display flex
     &:nth-child(2n)
       background-color: #ddd
 
-  & .cell
-    display: table-cell
+  .cell
+    display inline-block
     padding: 2px
+    flex 1
+    &:nth-child(1)
+      min-width 100px
+    &:nth-child(2)
+      flex 2
+      min-width 250px
+
+

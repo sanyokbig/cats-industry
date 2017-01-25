@@ -8,19 +8,27 @@ export const Ajax = {};
 
 Ajax.getKeyInfo = (keyID, vCode)=>{
     return new Promise((resolve,reject)=>{
-        HTTP.get('https://api.eveonline.com/account/APIKeyInfo.xml.aspx', {
-            params: {keyID,vCode}
-        },(err,res)=>{
-            if(err) {
-                let parsed = xml2js.parseStringSync(err.response.content);
-                reject(parsed)
-            } else {
-                let parsed = xml2js.parseStringSync(res.content);
-                resolve(parsed);
-            }
-        });
+        try{
+            HTTP.get('https://api.eveonline.com/account/APIKeyInfo.xml.aspx', {
+                params: {keyID,vCode},
+                timeout: 5000
+            },(err,res)=>{
+                if(err) {
+                    let parsed = xml2js.parseStringSync(err.response.content);
+                    reject(parsed)
+                } else {
+                    let parsed = xml2js.parseStringSync(res.content);
+                    resolve(parsed);
+                }
+            });
+        } catch (e){
+            console.log('getKeyInfo.error');
+            console.log(e);
+            reject(e);
+        }
     });
 };
+
 Ajax.getJobs = function(keyID,vCode,type,charID){
     //TODO Так же тянуть активные работы (IndustryJobs), добавлять и те, и другие
     return new Promise((resolve, reject)=>{
@@ -30,9 +38,10 @@ Ajax.getJobs = function(keyID,vCode,type,charID){
         };
         charID||(params.charID=charID);
         try {
-            HTTP.call('get', 'https://api.eveonline.com/' + type + '/IndustryJobsHistory.xml.aspx', {
-                    params
-                }, (err, res) => {
+            HTTP.call('get', 'https://api.eveonline.com/' + type + '/IndustryJobs.xml.aspx', {
+                    params,
+                    timeout: 10000
+                },(err, res) => {
                     if (err) {
                         let parsed = xml2js.parseStringSync(err.response.content);
                         reject(parsed)

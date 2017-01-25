@@ -1,33 +1,24 @@
 <template name="grid">
     <div class="grid">
         <div class="head">
-            <div class="cell">JobID</div>
-            <div class="cell">Product</div>
-            <div class="cell">Status</div>
-            <div class="cell">Installer</div>
-            <div class="cell">Start</div>
-            <div class="cell">End</div>
-            <div class="cell">Completition Date</div>
-            <div class="cell">Access List</div>
-            <div class="cell"></div>
+            <div class="cell" data-sort-key="jobID">JobID</div>
+            <div class="cell" data-sort-key="productTypeName">Product</div>
+            <div class="cell" data-sort-key="status">Status</div>
+            <div class="cell" data-sort-key="endDate">Осталось</div>
+            <div class="cell" data-sort-key="installerName">Installer</div>
+            <div class="cell" data-sort-key="accessList">Access List</div>
         </div>
         {{#each jobs}}
             <div class="row">
                 <div class="cell">{{jobID}}</div>
                 <div class="cell">{{productTypeName}}</div>
                 <div class="cell">{{statusName status}}</div>
-                <div class="cell">{{installerName}}</div>
-                <div class="cell">{{date startDate}}</div>
                 <div class="cell">{{date endDate}}</div>
-                <div class="cell">{{date completedDate}}</div>
+                <div class="cell">{{installerName}}</div>
                 <div class="cell">{{accessList}}</div>
-                <div class="cell">
-                    <div class="access">Доступ</div>
-                </div>
             </div>
         {{/each}}
     </div>
-
     {{#if accessListOpen}}
         {{> accessList}}
     {{/if}}

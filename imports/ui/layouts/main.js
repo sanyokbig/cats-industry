@@ -23,7 +23,6 @@ Template.main.helpers({
         return Jobs.find({}).count()
     },
     'active'(){
-        console.log(Jobs.find().fetch());
         return Jobs.find({status: 1}).count()
     },
     'ready'(){
