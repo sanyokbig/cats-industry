@@ -16,6 +16,11 @@ Meteor.methods({
             console.log(e);
         }
     },
+    'jobs.addList'(jobs){
+        for (let job of jobs) {
+            Meteor.call('jobs.add', job);
+        }
+    },
     'jobs.updateAccessList'(jobID, accessList){
         try {
             Jobs.update({jobID: +jobID}, {

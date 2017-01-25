@@ -37,38 +37,44 @@ Meteor.methods({
         }
     },
     'keys.update'(key){
-        //TODO проверить маску, обновить тип ключа, удалить, если ошибка доступа или маска не та
         let future = new Future();
+        console.log('Updating '+key.keyID);
+        try {
+            Ajax.getKeyInfo(key.keyID, key.vCode)
+                .then(response => {
+                    response = response.eveapi.result[0].key[0];
+                    console.log('Success');
+                    let keyInfo = response.$,
+                        charInfo = response.rowset[0].row[0].$,
+                        newType;
+                    //Актуальность маски
+                    if (Bit.mask(keyInfo.accessMask, 128)) {
+                        if (keyInfo.type === 'Character') {
+                            newType = 'char';
+                        } else {
+                            newType = 'corp';
+                        }
 
-        Ajax.getKeyInfo(key.keyID, key.vCode)
-            .then(response => {
-                response = response.eveapi.result[0].key[0];
-                let keyInfo = response.$,
-                    charInfo = response.rowset[0].row[0].$,
-                    newType;
-                //Актуальность маски
-                if (Bit.mask(keyInfo.accessMask, 128)) {
-                    if (keyInfo.type === 'Character') {
-                        newType = 'char';
+                        if (newType !== key.type) {
+                            console.log('updating key');
+                            console.log(key.type + ' => '+ newType);
+                            key.type = newType;
+                            Keys.update(key._id, {$set: key});
+                        }
+                        future.return(key);
                     } else {
-                        newType = 'corp';
+                        //Маска не подходит, пропускаем
+                        future.throw('Wrong mask: ' + keyInfo.accessMask);
                     }
+                })
+                .catch(error => {
+                    future.throw(error.eveapi.error[0]._);
+                });
+        } catch (e){
+            console.log('Exception');
+            console.log(e);
+        }
 
-                    if (newType !== key.type) {
-                        console.log('updating key');
-                        console.log(key.type + ' => '+ newType);
-                        key.type = newType;
-                        Keys.update(key._id, {$set: key});
-                    }
-                    future.return(key);
-                } else {
-                    //Маска не подходит, пропускаем
-                    future.throw('Wrong mask: ' + keyInfo.accessMask);
-                }
-            })
-            .catch(error => {
-                future.throw(error.eveapi.error[0]._);
-            });
         return future.wait();
     },
     'keys.remove'(_id){

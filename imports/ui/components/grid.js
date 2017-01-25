@@ -1,6 +1,6 @@
 import {Meteor} from 'meteor/meteor'
 import {Template} from 'meteor/templating'
-import {Jobs, StatusNames} from '../../api/jobs/jobs'
+import {Jobs, StatusNames, ActivityNames} from '../../api/jobs/jobs'
 
 import './grid.html'
 import './grid.styl'
@@ -28,7 +28,11 @@ Template.grid.helpers({
     },
     'statusName'(status){
         return StatusNames[status]
-    }
+    },
+    'activityName'(activityID){
+        return ActivityNames[activityID]
+    },
+
 });
 
 Template.grid.events({

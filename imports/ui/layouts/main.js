@@ -45,6 +45,7 @@ Template.main.events({
     },
     'submit .add'(e){
         e.preventDefault();
+        console.log('adding key');
         Meteor.call('keys.add',e.target.keyID.value,e.target.vCode.value);
     }
 });
