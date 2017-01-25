@@ -13,12 +13,15 @@ Meteor.subscribe('jobs');
 
 Template.grid.helpers({
     'jobs'(){
+        let filter = {},
+            sorter = {};
         let curKey = Session.get('sorter_key');
         if(curKey) {
             let curDir = Session.get('sorter_dir');
-            return Jobs.find({}, {sort: {[curKey]: curDir}})
+            sorter = {[curKey]: curDir};
         }
-        return Jobs.find({});
+        filter.productTypeName = new RegExp(Session.get('grid_search'));
+        return Jobs.find(filter,{sort: sorter});
     },
     'date'(date){
         return moment(date).format('DD-MM-YY HH:mm:ss');
@@ -31,13 +34,11 @@ Template.grid.helpers({
     },
     'activityName'(activityID){
         return ActivityNames[activityID]
-    },
-
+    }
 });
 
 Template.grid.events({
-    'click .access'(){
-        console.log(this)
+    'click .access-list'(){
         Session.set('accessListOpen',true);
         Session.set('accessListJobID',this.jobID);
         Session.set('accessList',this.accessList);
@@ -60,5 +61,8 @@ Template.grid.events({
             Session.set('sorter_key', tgtKey);
             Session.set('sorter_dir', 1);
         }
+    },
+    'input .filter>input'(e){
+        Session.set('grid_search', e.target.value);
     }
 })
