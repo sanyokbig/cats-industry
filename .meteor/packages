@@ -31,3 +31,4 @@ aldeed:collection2-core
 momentjs:moment
 session
 mizzao:timesync
+oaf:moment-duration-format

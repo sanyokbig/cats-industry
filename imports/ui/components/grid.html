@@ -13,6 +13,7 @@
             <div class="cell" data-sort-key="installerName">Installer</div>
             <div class="cell" data-sort-key="accessList">Access List</div>
         </div>
+        <div class="body">
         {{#each jobs}}
             <div class="row">
                 <div class="cell">{{jobID}}</div>
@@ -20,11 +21,12 @@
                 <div class="cell">{{runs}}</div>
                 <div class="cell">{{activityName activityID}}</div>
                 <div class="cell">{{statusName status}}</div>
-                <div class="cell">{{date endDate}}</div>
+                <div class="cell">{{left endDate}}</div>
                 <div class="cell">{{installerName}}</div>
                 <div class="cell access-list">{{accessList}}</div>
             </div>
         {{/each}}
+        </div>
     </div>
     {{#if accessListOpen}}
         {{> accessList}}

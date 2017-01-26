@@ -1,23 +1,35 @@
 <template name="main">
-    <header>
+    <header class="header">
         {{#if currentUser}}
-            <div>{{currentUser.profile.name}}</div>
-            <div>В работе:  {{active}}</div>
-            <div>Готово:    {{ready}}</div>
+            <div class="job-counter">
+                <div>В работе:  {{active}}</div>
+                <div>Готово:    {{ready}}</div>
+            </div>
             {{#if isCat}}
-                <form class="add">
-                    <label>KeyID<input name="keyID"></label>
-                    <label>VCode<input name="vCode"></label>
-                    <button>Add</button>
-                </form>
+                <div class='admin'>
+                    <form class="add">
+                        <input placeholder="KeyID" name="keyID">
+                        <input placeholder="VCode" name="vCode">
+                        <button type="submit">Add</button>
+                    </form>
+                    <div class="keys">
+                        <select>
+                            {{#each keys}}
+                                <option value="{{keyID}}">{{ownerName}} ({{type}})</option>
+                            {{/each}}
+                        </select>
+                        <button class="editUsers" enabled="{{isCorpKey}}">Юзеры</button>
+                        <button class="removeKey">Удалить</button>
+                    </div>
+
+                </div>
             {{/if}}
+            <div class="login-name">{{currentUser.profile.name}}</div>
             <button class="logout">Logout</button>
         {{else}}
             <button class="login">Login</button>
         {{/if}}
     </header>
-    <div>
-        {{> grid}}
-    </div>
+    {{> grid}}
     <footer></footer>
 </template>

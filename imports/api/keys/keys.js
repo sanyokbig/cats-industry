@@ -23,6 +23,10 @@ Schemas.Key = new SimpleSchema({
         type: Number,
         label: 'Owner ID'
     },
+    ownerName: {
+        type: String,
+        label: 'Owner Name'
+    },
     users: {
         type: Array,
         label: 'Users'

@@ -2,16 +2,24 @@ import {Meteor} from 'meteor/meteor'
 import {Template} from 'meteor/templating'
 
 import {Jobs} from '../../api/jobs/jobs'
+import {Keys} from '../../api/keys/keys'
 
 import './main.html';
 import './main.styl';
 import '../components/grid.js';
 
 Meteor.subscribe('jobs');
+Meteor.subscribe('keys');
 
 Template.main.helpers({
+    'keys'(){
+        return Keys.find({});
+    },
     'isCat'(){
         return Meteor.user().profile.name === 'Alexander Bienveillant'
+    },
+    'isCorpKey'(){
+
     },
     'settings'(){
         return {

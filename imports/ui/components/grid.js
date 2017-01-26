@@ -6,9 +6,6 @@ import './grid.html'
 import './grid.styl'
 import './accessList.js'
 
-
-let ServerTime = TimeSync.serverTime(null,1000);
-
 Meteor.subscribe('jobs');
 
 Template.grid.helpers({
@@ -20,7 +17,7 @@ Template.grid.helpers({
             let curDir = Session.get('sorter_dir');
             sorter = {[curKey]: curDir};
         }
-        filter.productTypeName = new RegExp(Session.get('grid_search'));
+        filter.productTypeName = new RegExp(Session.get('grid_search'),'i');
         return Jobs.find(filter,{sort: sorter});
     },
     'date'(date){
@@ -34,6 +31,9 @@ Template.grid.helpers({
     },
     'activityName'(activityID){
         return ActivityNames[activityID]
+    },
+    'left'(date){
+        return moment.duration(moment(date)-moment(TimeSync.serverTime(null,1000))).format();
     }
 });
 

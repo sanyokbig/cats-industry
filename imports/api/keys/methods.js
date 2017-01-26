@@ -18,6 +18,7 @@ Meteor.methods({
                     key.keyID = +keyID;
                     key.vCode = vCode;
                     key.owner = +charInfo.characterID;
+                    key.ownerName = charInfo.characterName;
                     //TODO Реализовать ввод списка юзеров в корп ключ
                     //TODO Переименовать users во что-то более понятное
                     key.users = [];
