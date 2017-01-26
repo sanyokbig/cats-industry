@@ -27,11 +27,11 @@ Schemas.Key = new SimpleSchema({
         type: String,
         label: 'Owner Name'
     },
-    users: {
+    industrialists: {
         type: Array,
-        label: 'Users'
+        label: 'Industrialists'
     },
-    'users.$':{
+    'industrialists.$':{
         type: String
     }
 });

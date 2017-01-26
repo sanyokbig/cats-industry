@@ -18,6 +18,7 @@ Meteor.setTimeout(() => {
                 }
                 Ajax.getJobs(response)
                     .then(jobs => {
+                        console.log(jobs.length);
                         //Проходим по подтянутым работам и обновляем данные
                         Meteor.call('jobs.addList',jobs);
                     })

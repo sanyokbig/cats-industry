@@ -1,48 +1,48 @@
 import {Meteor} from 'meteor/meteor'
 import {Template} from 'meteor/templating'
-import {Jobs, StatusNames, ActivityNames} from '../../api/jobs/jobs'
+
+import {Jobs, ActivityNames} from '../../api/jobs/jobs'
 
 import './grid.html'
 import './grid.styl'
-import './accessList.js'
+
+import './job.js';
 
 Meteor.subscribe('jobs');
 
 Template.grid.helpers({
     'jobs'(){
         let filter = {},
-            sorter = {};
+            sorter = {endDate: 1};
         let curKey = Session.get('sorter_key');
         if(curKey) {
             let curDir = Session.get('sorter_dir');
             sorter = {[curKey]: curDir};
         }
-        filter.productTypeName = new RegExp(Session.get('grid_search'),'i');
+
+        filter.productTypeName = new RegExp(Session.get('product_search'),'i');
+        filter.installerName = new RegExp(Session.get('installer_search'),'i');
+
+        let activity_search = Session.get('activity_search');
+        if(activity_search && activity_search !== '-1') {
+            console.log(activity_search);
+            filter.activityID = +activity_search;
+        }
         return Jobs.find(filter,{sort: sorter});
     },
     'date'(date){
         return moment(date).format('DD-MM-YY HH:mm:ss');
     },
-    'accessListOpen'(){
-        return Session.get('accessListOpen')
-    },
-    'statusName'(status){
-        return StatusNames[status]
-    },
-    'activityName'(activityID){
-        return ActivityNames[activityID]
-    },
-    'left'(date){
-        return moment.duration(moment(date)-moment(TimeSync.serverTime(null,1000))).format();
+    'activityNames'(){
+        let result = [];
+        for (let key in ActivityNames)  {
+            result.push({key,value:ActivityNames[key]});
+        }
+        return result;
     }
 });
 
 Template.grid.events({
-    'click .access-list'(){
-        Session.set('accessListOpen',true);
-        Session.set('accessListJobID',this.jobID);
-        Session.set('accessList',this.accessList);
-    },
     'click .head .cell'(e){
         let tgtKey = e.target.dataset.sortKey;
         let curKey = Session.get('sorter_key');
@@ -62,7 +62,13 @@ Template.grid.events({
             Session.set('sorter_dir', 1);
         }
     },
-    'input .filter>input'(e){
-        Session.set('grid_search', e.target.value);
+    'input .filter.product>input'(e){
+        Session.set('product_search', e.target.value);
+    },
+    'input .filter.installer>input'(e){
+        Session.set('installer_search', e.target.value);
+    },
+    'change .filter.activity'(e){
+        Session.set('activity_search', e.target.value);
     }
 })

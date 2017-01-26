@@ -20,8 +20,7 @@ Meteor.methods({
                     key.owner = +charInfo.characterID;
                     key.ownerName = charInfo.characterName;
                     //TODO Реализовать ввод списка юзеров в корп ключ
-                    //TODO Переименовать users во что-то более понятное
-                    key.users = [];
+                    key.industrialists = [];
                     if (keyInfo.type === 'Character') {
                         key.type = 'char';
                     } else {
@@ -81,6 +80,18 @@ Meteor.methods({
             });
 
         return future.wait();
+    },
+    'keys.updateIndustrialists'(keyID, industrialists){
+        try {
+            Keys.update({keyID: +keyID}, {
+                $set: {
+                    industrialists
+                }
+            })
+
+        } catch(e){
+            console.log(e);
+        }
     },
     'keys.remove'(_id){
         try {

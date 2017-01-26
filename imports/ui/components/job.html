@@ -1,0 +1,18 @@
+<template name="job">
+    <div class="row">
+        <div class="cell">{{jobID}}</div>
+        <div class="cell">{{productTypeName}}</div>
+        <div class="cell">{{runs}}</div>
+        <div class="cell">{{activityName activityID}}</div>
+        <div class="cell">{{statusName status}}</div>
+        <div class="cell">{{left endDate}}</div>
+        <div class="cell">{{installerName}}</div>
+        <div class="cell access-list">
+            {{#if edit}}
+                <input value="{{accessList}}"/>
+            {{else}}
+                <span class="list">{{accessList}}</span>
+            {{/if}}
+        </div>
+    </div>
+</template>

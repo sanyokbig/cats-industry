@@ -2,6 +2,15 @@
     <div class="grid">
         <div class="controls">
             <div class="filter product"><input placeholder="Product..."></div>
+            <div class="filter installer"><input placeholder="Installer..."></div>
+            <div class="filter activity">
+                <select>
+                    <option value="-1">All</option>
+                    {{#each activityNames}}
+                        <option value="{{this.key}}">{{this.value}}</option>
+                    {{/each}}
+                </select>
+            </div>
         </div>
         <div class="head">
             <div class="cell" data-sort-key="jobID">JobID</div>
@@ -14,21 +23,9 @@
             <div class="cell" data-sort-key="accessList">Access List</div>
         </div>
         <div class="body">
-        {{#each jobs}}
-            <div class="row">
-                <div class="cell">{{jobID}}</div>
-                <div class="cell">{{productTypeName}}</div>
-                <div class="cell">{{runs}}</div>
-                <div class="cell">{{activityName activityID}}</div>
-                <div class="cell">{{statusName status}}</div>
-                <div class="cell">{{left endDate}}</div>
-                <div class="cell">{{installerName}}</div>
-                <div class="cell access-list">{{accessList}}</div>
-            </div>
-        {{/each}}
+            {{#each jobs}}
+                {{> job}}
+            {{/each}}
         </div>
     </div>
-    {{#if accessListOpen}}
-        {{> accessList}}
-    {{/if}}
 </template>

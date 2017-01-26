@@ -32,3 +32,4 @@ momentjs:moment
 session
 mizzao:timesync
 oaf:moment-duration-format
+reactive-dict

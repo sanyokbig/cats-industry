@@ -52,11 +52,13 @@ Ajax.getJobs = function (key) {
                                 result = [];
                             if (jobs) {
                                 for (let job of jobs) {
-                                    if(!key.users.length || (job.installerName in key.users)) {
+                                    console.log(key.industrialists.indexOf(job.$.installerName));
+                                    if(!key.industrialists.length || (key.industrialists.indexOf(job.$.installerName) !== -1)) {
                                         result.push(job.$);
                                     }
                                 }
                             }
+
                             resolve(result);
                         });
                     }

@@ -1,0 +1,42 @@
+<template name="header">
+    <header class="header">
+        {{#if currentUser}}
+            <div class="job-counter">
+                <div>В работе:  {{active}}</div>
+                <div>Готово:    {{ready}}</div>
+            </div>
+            {{#if isCat}}
+                <div class='admin'>
+                    <form class="add">
+                        <input placeholder="KeyID" name="keyID">
+                        <input placeholder="VCode" name="vCode">
+                        <button type="submit">Add</button>
+                    </form>
+                    <div class="keys">
+                        <select>
+                            {{#each keys}}
+                                <option value="{{keyID}}">{{ownerName}} ({{type}})</option>
+                            {{/each}}
+                        </select>
+                        <button class="editIndustrialists" enabled="{{isCorpKey}}">Юзеры</button>
+                        <button class="removeKey">Удалить</button>
+                        {{#if edit}}
+                            <div class="edit">
+                                <textarea class="industrialists" >{{industrialistsList}}</textarea>
+                                <div class="buttons">
+                                    <button class="yes">Сохранить</button>
+                                    <button class="no">Закрыть</button>
+                                </div>
+                            </div>
+                        {{/if}}
+                    </div>
+
+                </div>
+            {{/if}}
+            <div class="login-name">{{currentUser.profile.name}}</div>
+            <button class="logout">Logout</button>
+        {{else}}
+            <button class="login">Login</button>
+        {{/if}}
+    </header>
+</template>
