@@ -12,6 +12,7 @@ Meteor.subscribe('keys');
 
 Template.header.onCreated(function headerOnCreated() {
     this.state = new ReactiveDict();
+    this.state.set('key',{});
 });
 
 Template.header.helpers({
@@ -21,30 +22,18 @@ Template.header.helpers({
     'isCat'(){
         return Meteor.user().profile.name === 'Alexander Bienveillant'
     },
-    'isCorpKey'(){
-
-    },
-    'settings'(){
-        return {
-            collection: Jobs,
-            fields: ['owner']
-        }
-    },
-    'total'(){
-        return Jobs.find({}).count()
-    },
-    'active'(){
-        return Jobs.find({status: 1}).count()
-    },
-    'ready'(){
-        return Jobs.find({status: 3}).count()
+    'editDisabled'(){
+        let key = Template.instance().state.get('key');
+        return (key.type !== 'corp');
     },
     'edit'(){
-        return Template.instance().state.get('edit');
+        let inst = Template.instance();
+        return (inst.state.get('edit') && inst.state.get('key').type === 'corp');
     },
     'industrialistsList'(){
-        let keyID = Template.instance().state.get('edit');
-        let inds = Keys.findOne({keyID}).industrialists;
+        //let keyID = Template.instance().state.get('edit');
+        //let inds = Keys.findOne({keyID}).industrialists;
+        let inds = Template.instance().state.get('key').industrialists;
         return inds.join(', ');
     }
 });
@@ -79,5 +68,11 @@ Template.header.events({
     },
     'click .edit .no'(e, inst){
         inst.state.set('edit', null);
+    },
+    'click .update'(){
+        Meteor.call('update.jobs');
+    },
+    'change .keys>select'(e, inst){
+        inst.state.set('key', Keys.findOne({keyID: +e.target.value}));
     }
 });

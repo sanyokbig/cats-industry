@@ -1,20 +1,48 @@
 .grid
   .controls
-    padding: 20px
-    border-bottom: 2px solid #0075cb
+    padding: 10px
+    display: flex
+    .job-counter
+      flex: 1
+      max-width: 300px
+      font-size: 20px
+      span
+        text-align: right
+    .filter
+      font-size: 18px
+      padding: 4px
+      &.search
+        flex: 5
+        max-width: 100%
+        margin-right: 20px
+      &.activity
+        flex: 1
+        margin-right: 20px
+      &.status
+        flex: 1
   .head
     display flex
-    border-bottom: 2px solid #0075cb
+    border-bottom: 1px solid #0075cb
+    border-top: 1px solid #0075cb
     .cell
       cursor pointer
+      text-align center
+      border-right:1px solid #0075cb
+      &:last-child
+        border-right: 0
   .row
     display flex
     &:nth-child(2n)
       background-color: #ddd
+    &:hover
+      background-color: #a7deff
+    .cell
+      &:nth-child(3),&:nth-child(6)
+        text-align: right
   .cell
     overflow hidden
     display inline-block
-    padding: 2px
+    padding: 2px 5px
     flex 1
     &.access-list
       cursor pointer
@@ -22,7 +50,14 @@
         background-color: rgba(50,200,200,0.2)
     &:nth-child(1)
       min-width 100px
+      max-width 150px
     &:nth-child(2)
       flex 2
       min-width 250px
-
+    &:nth-child(3)
+      max-width: 80px
+  .more
+    padding: 10px
+    text-align: center
+    font-size: 28px
+    width: 100%

@@ -1,31 +1,39 @@
 <template name="grid">
     <div class="grid">
         <div class="controls">
-            <div class="filter product"><input placeholder="Product..."></div>
-            <div class="filter installer"><input placeholder="Installer..."></div>
-            <div class="filter activity">
-                <select>
-                    <option value="-1">All</option>
-                    {{#each activityNames}}
-                        <option value="{{this.key}}">{{this.value}}</option>
-                    {{/each}}
-                </select>
+            <div class="job-counter">
+                <div>В работе: <span>{{active}}</span></div>
+                <div>Готово: <span>{{ready}}</span></div>
             </div>
+            <input class=" filter search" placeholder="Search...">
+            <select class="filter activity">
+                <option value="-1">Все</option>
+                {{#each activityNames}}
+                    <option value="{{this.key}}">{{this.value}}</option>
+                {{/each}}
+            </select>
+            <select class="filter status">
+                <option value="-1">Все</option>
+                {{#each statusNames}}
+                    <option value="{{this.key}}">{{this.value}}</option>
+                {{/each}}
+            </select>
         </div>
         <div class="head">
-            <div class="cell" data-sort-key="jobID">JobID</div>
-            <div class="cell" data-sort-key="productTypeName">Product</div>
-            <div class="cell" data-sort-key="runs">Runs</div>
-            <div class="cell" data-sort-key="activityID">Activity</div>
-            <div class="cell" data-sort-key="status">Status</div>
+            <div class="cell" data-sort-key="jobID">ID</div>
+            <div class="cell" data-sort-key="productTypeName">Продукт</div>
+            <div class="cell" data-sort-key="runs">Прогоны</div>
+            <div class="cell" data-sort-key="activityID">Тип</div>
+            <div class="cell" data-sort-key="status">Статус</div>
             <div class="cell" data-sort-key="endDate">Осталось</div>
-            <div class="cell" data-sort-key="installerName">Installer</div>
-            <div class="cell" data-sort-key="accessList">Access List</div>
+            <div class="cell" data-sort-key="installerName">Персонаж</div>
+            <div class="cell" data-sort-key="accessList">Доступ</div>
         </div>
         <div class="body">
             {{#each jobs}}
                 {{> job}}
             {{/each}}
+            <button class="more">Еще</button>
         </div>
     </div>
 </template>

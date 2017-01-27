@@ -3,25 +3,25 @@ import {Mongo} from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 
 export const StatusNames = {
-    0: 'None',
+    0: 'Нет',
     1: 'В процессе',
     2: 'Приостановлено',
     3: 'Готово',
-    101: 'Доставлено',
+    101: 'Завершено',
     102: 'Отменено',
-    103: 'Reverted'
+    103: 'Реверсировано'
 };
 
 export const ActivityNames = {
-    0: 'None',
-    1: 'Manufacturing',
-    2: 'Res. Tech',
-    3: 'Res. TE',
-    4: 'Res. ME',
-    5: 'Copy',
-    6: 'Duplicating',
-    7: 'Rev. Eng',
-    8: 'Invent'
+    0: 'Нет',
+    1: 'Производство',
+    2: 'Исслед. Тех.',
+    3: 'Исслед. ТЕ',
+    4: 'Исслед. МЕ',
+    5: 'Копирование',
+    6: 'Дупликация',
+    7: 'Реверсивная инженерия',
+    8: 'Инвент'
 };
 
 
@@ -32,7 +32,7 @@ const Schemas = Schemas || {};
 
 Schemas.Job = new SimpleSchema({
     jobID: {
-        type: Number,
+        type: String,
         label: 'Job ID'
     },
     installerName: {

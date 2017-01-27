@@ -15,8 +15,7 @@ Ajax.getKeyInfo = (keyID, vCode) => {
                 timeout: 5000
             }, (err, res) => {
                 if (err) {
-                    //let parsed = xml2js.parseStringSync(err.response.content);
-                    reject(err)
+                    reject(err);
                 } else {
                     let parsed = xml2js.parseStringSync(res.content);
                     resolve(parsed);
@@ -44,16 +43,16 @@ Ajax.getJobs = function (key) {
                     timeout: 10000
                 }, (err, res) => {
                     if (err) {
-                        //let parsed = xml2js.parseStringSync(err.response.content);
-                        reject(err)
+                        throw(err);
                     } else {
                         xml2js.parseString(res.content, (err, res) => {
-                            let jobs = res.eveapi.result[0].rowset[0].row,
+                            let jobs = res.eveapi.result[0].rowset[0].row || [],
                                 result = [];
+
+                            console.log('Got ' + jobs.length + ' jobs');
                             if (jobs) {
                                 for (let job of jobs) {
-                                    console.log(key.industrialists.indexOf(job.$.installerName));
-                                    if(!key.industrialists.length || (key.industrialists.indexOf(job.$.installerName) !== -1)) {
+                                    if (!key.industrialists.length || (key.industrialists.indexOf(job.$.installerName) !== -1)) {
                                         result.push(job.$);
                                     }
                                 }
@@ -66,6 +65,46 @@ Ajax.getJobs = function (key) {
             );
         } catch (e) {
             console.log('getJobs.error');
+            console.log(e);
+            reject(e);
+        }
+    });
+};
+
+Ajax.getJobsHistory = function (key) {
+    return new Promise((resolve, reject) => {
+        let params = {
+            keyID: key.keyID,
+            vCode: key.vCode,
+            charID: key.charID
+        };
+        try {
+            HTTP.call('get', 'https://api.eveonline.com/' + key.type + '/IndustryJobsHistory.xml.aspx', {
+                    params,
+                    timeout: 10000
+                }, (err, res) => {
+                    if (err) {
+                        throw(err);
+                    } else {
+                        xml2js.parseString(res.content, (err, res) => {
+                            let jobs = res.eveapi.result[0].rowset[0].row || [],
+                                result = [];
+                            console.log('Got ' + jobs.length + ' history jobs');
+                            if (jobs) {
+                                for (let job of jobs) {
+                                    if (!key.industrialists.length || (key.industrialists.indexOf(job.$.installerName) !== -1)) {
+                                        result.push(job.$);
+                                    }
+                                }
+                            }
+
+                            resolve(result);
+                        });
+                    }
+                }
+            );
+        } catch (e) {
+            console.log('getJobsHistory.error');
             console.log(e);
             reject(e);
         }

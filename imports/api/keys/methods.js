@@ -19,7 +19,6 @@ Meteor.methods({
                     key.vCode = vCode;
                     key.owner = +charInfo.characterID;
                     key.ownerName = charInfo.characterName;
-                    //TODO Реализовать ввод списка юзеров в корп ключ
                     key.industrialists = [];
                     if (keyInfo.type === 'Character') {
                         key.type = 'char';
@@ -37,7 +36,7 @@ Meteor.methods({
                 future.return('gh');
             })
             .catch(error => {
-                console.log(error.eveapi.error[0]._);
+                future.throw(error);
             })
         return future.wait();
     },
@@ -76,7 +75,7 @@ Meteor.methods({
                 }
             })
             .catch(error => {
-                future.throw(error.eveapi.error[0]._);
+                future.throw(error);
             });
 
         return future.wait();

@@ -3,25 +3,38 @@ import {Jobs} from './jobs'
 
 Meteor.methods({
     'jobs.add'(job){
+        let diff = moment() - moment(job.endDate);
+        if (diff > 0) {
+            job.status = 3;
+        }
         try {
-            if (Jobs.findOne({jobID: +job.jobID})) {
+            if (Jobs.findOne({jobID: job.jobID})) {
                 Jobs.update({jobID: job.jobID}, {$set: job});
             } else {
                 job.accessList=[];
                 Jobs.insert(job);
             }
         } catch (e) {
-            console.log(e);
+            throw(e)
         }
     },
     'jobs.addList'(jobs){
+        console.log('Trying to add ' + jobs.length + ' jobs');
+        let success=error=0;
         for (let job of jobs) {
-            Meteor.call('jobs.add', job);
+            try {
+                Meteor.call('jobs.add', job);
+                success++;
+            } catch (e){
+                console.log(e);
+                errors++;
+            }
         }
+        console.log('Added: '+success+', Failed: '+error);
     },
     'jobs.updateAccessList'(jobID, accessList){
         try {
-            Jobs.update({jobID: +jobID}, {
+            Jobs.update({jobID: jobID}, {
                 $set: {
                     accessList
                 }
