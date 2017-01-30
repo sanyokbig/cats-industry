@@ -6,6 +6,7 @@
                 <div>Готово: <span>{{ready}}</span></div>
             </div>
             <input class=" filter search" placeholder="Search...">
+            <input type="date" value="{{startDate}}" class="filter startDate"/>
             <select class="filter activity">
                 <option value="-1">Все</option>
                 {{#each activityNames}}
@@ -33,7 +34,6 @@
             {{#each jobs}}
                 {{> job}}
             {{/each}}
-            <button class="more">Еще</button>
         </div>
     </div>
 </template>

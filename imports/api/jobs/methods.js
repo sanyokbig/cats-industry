@@ -3,8 +3,7 @@ import {Jobs} from './jobs'
 
 Meteor.methods({
     'jobs.add'(job){
-        let diff = moment() - moment(job.endDate);
-        if (diff > 0) {
+        if ((+job.status === 1) && (moment() - moment(job.endDate) > 0)) {
             job.status = 3;
         }
         try {

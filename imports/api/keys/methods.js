@@ -6,6 +6,7 @@ import {Bit} from '../system/server/bit';
 let Future = Npm.require('fibers/future');
 Meteor.methods({
     'keys.add'(keyID, vCode){
+        if(!Meteor.call('iscat')) throw('login');
         let future = new Future();
         Ajax.getKeyInfo(keyID, vCode)
             .then(response => {
@@ -33,11 +34,11 @@ Meteor.methods({
                     }
                     future.return(key.type);
                 }
-                future.return('gh');
+                future.return();
             })
             .catch(error => {
-                future.throw(error);
-            })
+                future.return('Ошибка. Ключ не добавлен');
+            });
         return future.wait();
     },
     'keys.update'(key){
@@ -71,11 +72,11 @@ Meteor.methods({
                     future.return(key);
                 } else {
                     //Маска не подходит, пропускаем
-                    future.throw('Wrong mask: ' + keyInfo.accessMask);
+                    future.return('Wrong mask: ' + keyInfo.accessMask);
                 }
             })
             .catch(error => {
-                future.throw(error);
+                future.return('Ошибка. Ключ не обновлен');
             });
 
         return future.wait();
@@ -87,9 +88,10 @@ Meteor.methods({
                     industrialists
                 }
             })
-
+            return true
         } catch(e){
             console.log(e);
+            return 'Error'
         }
     },
     'keys.remove'(_id){
@@ -100,4 +102,4 @@ Meteor.methods({
             console.log(err);
         }
     }
-})
+});

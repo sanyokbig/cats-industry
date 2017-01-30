@@ -12,7 +12,7 @@ Ajax.getKeyInfo = (keyID, vCode) => {
         try {
             HTTP.get('https://api.eveonline.com/account/APIKeyInfo.xml.aspx', {
                 params: {keyID, vCode},
-                timeout: 5000
+                timeout: 30000
             }, (err, res) => {
                 if (err) {
                     reject(err);
@@ -40,7 +40,7 @@ Ajax.getJobs = function (key) {
         try {
             HTTP.call('get', 'https://api.eveonline.com/' + key.type + '/IndustryJobs.xml.aspx', {
                     params,
-                    timeout: 10000
+                    timeout: 30000
                 }, (err, res) => {
                     if (err) {
                         throw(err);
@@ -81,7 +81,7 @@ Ajax.getJobsHistory = function (key) {
         try {
             HTTP.call('get', 'https://api.eveonline.com/' + key.type + '/IndustryJobsHistory.xml.aspx', {
                     params,
-                    timeout: 10000
+                    timeout: 60000
                 }, (err, res) => {
                     if (err) {
                         throw(err);

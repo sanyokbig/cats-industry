@@ -67,8 +67,7 @@ Meteor.methods({
     'update.statuses'(){
         let i = 0;
         for (let job of Jobs.find({status: 1}).fetch()) {
-            let diff = moment() - moment(job.endDate);
-            if (diff > 0) {
+            if (moment() - moment(job.endDate) > 0) {
                 Jobs.update({_id: job._id}, {$set: {status: 3}});
                 i++
             }
@@ -79,8 +78,8 @@ Meteor.methods({
     }
 });
 
-Meteor.call('update.jobs');
-Meteor.call('update.jobsHistory');
+//Meteor.call('update.jobs');
+//Meteor.call('update.jobsHistory');
 
 Meteor.setInterval(() => {
     //Обновление статусов каждый три минуты, ибо у ццп все как обычно - готовые, но не принятые работы не меняют статус на Готово

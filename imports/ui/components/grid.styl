@@ -11,15 +11,11 @@
     .filter
       font-size: 18px
       padding: 4px
+      margin-right: 20px
+      flex: 1
       &.search
-        flex: 5
+        flex: 3
         max-width: 100%
-        margin-right: 20px
-      &.activity
-        flex: 1
-        margin-right: 20px
-      &.status
-        flex: 1
   .head
     display flex
     border-bottom: 1px solid #0075cb
@@ -33,9 +29,9 @@
   .row
     display flex
     &:nth-child(2n)
-      background-color: #ddd
+      //background-color: #ddd
     &:hover
-      background-color: #a7deff
+      background-color: #c2eeff
     .cell
       &:nth-child(3),&:nth-child(6)
         text-align: right
@@ -47,7 +43,7 @@
     &.access-list
       cursor pointer
       &:hover
-        background-color: rgba(50,200,200,0.2)
+        background-color: rgba(200,200,200,0.5)
     &:nth-child(1)
       min-width 100px
       max-width 150px
@@ -61,3 +57,10 @@
     text-align: center
     font-size: 28px
     width: 100%
+
+  .job-green
+    background-color: #bcffb0
+  .job-yellow
+    background-color: #fbffc2
+  .job-blue
+    background-color: #ced9ff

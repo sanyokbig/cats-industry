@@ -29,6 +29,19 @@ Template.job.helpers({
             return
         }
         return moment.duration(diff).format();
+    },
+    'color'(status){
+        switch (status) {
+            case 1: {
+                return 'job-green'
+            }
+            case 3: {
+                return 'job-yellow'
+            }
+            case 101: {
+                return 'job-blue'
+            }
+        }
     }
 });
 

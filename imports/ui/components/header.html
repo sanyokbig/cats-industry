@@ -1,7 +1,7 @@
 <template name="header">
     <header class="header">
         {{#if currentUser}}
-            {{#if isCat}}
+            {{#if iscat}}
                 <div class='admin'>
                     <form class="add">
                         <div class="label">Добавить Ключ</div>
@@ -18,7 +18,7 @@
                             {{/each}}
                         </select>
                         <button class="editIndustrialists" hidden="{{editDisabled}}">Производственники</button>
-                        <button class="removeKey">Удалить</button>
+                        <button class="delete">Удалить</button>
                         {{#if edit}}
                             <div class="edit">
                                 <textarea class="industrialists" placeholder="Если пусто, с корп ключей подтягиваются все работы...">{{industrialistsList}}</textarea>
@@ -32,8 +32,10 @@
 
                 </div>
             {{/if}}
+        <div class="login-form">
             <div class="login-name">{{currentUser.profile.name}}</div>
             <button class="logout">Logout</button>
+        </div>
         {{else}}
             <button class="login">Login</button>
         {{/if}}

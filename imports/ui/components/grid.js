@@ -14,13 +14,16 @@ Template.grid.onCreated(function gridOnCreated() {
     Session.set('search_query', null);
     Session.set('search_activity', null);
     Session.set('search_status', null);
-    Session.set('grid_limit', 100);
+
+    let date = new Date(), startDate = new Date(date.setDate(date.getDate() - 14));
+    Session.set('search_startDate',startDate);
+    Session.set('grid_limit', 10000);
 });
 
 Template.grid.helpers({
     'jobs'(){
         let filter = {},
-            sorter = {endDate: 1};
+            sorter = {endDate: -1};
         let curKey = Session.get('sorter_key');
         if (curKey) {
             let curDir = Session.get('sorter_dir');
@@ -34,14 +37,18 @@ Template.grid.helpers({
                 $or: [
                     {jobIDName: query},
                     {productTypeName: query},
-                    {installerName: query}
+                    {installerName: query},
                 ]
             };
         }
 
+        let search_startDate = Session.get('search_startDate');
+        if (search_startDate) {
+            filter.startDate = {$gt: search_startDate};
+        }
+
         let search_activity = Session.get('search_activity');
         if (search_activity && search_activity !== '-1') {
-            console.log(search_activity);
             filter.activityID = +search_activity;
         }
 
@@ -53,6 +60,9 @@ Template.grid.helpers({
     },
     'date'(date){
         return moment(date).format('DD-MM-YY HH:mm:ss');
+    },
+    'startDate'(){
+        return moment(Session.get('search_startDate')).format('YYYY-MM-DD');
     },
     'activityNames'(){
         let result = [];
@@ -75,7 +85,7 @@ Template.grid.helpers({
         return Jobs.find({status: 3}).count()
     },
     'canLoadMore'(){
-        return Session.get('grid_limit')<Template.instance().find('.body').childNodes().count();
+        return Session.get('grid_limit') < Template.instance().find('.body').childNodes().count();
     }
 });
 
@@ -102,13 +112,13 @@ Template.grid.events({
     'input .filter.search'(e){
         Session.set('search_query', e.target.value);
     },
+    'change .filter.startDate'(e){
+        Session.set('search_startDate', new Date(e.target.value));
+    },
     'change .filter.activity'(e){
         Session.set('search_activity', e.target.value);
     },
     'change .filter.status'(e){
         Session.set('search_status', e.target.value);
-    },
-    'click .more'(){
-        Session.set('grid_limit', Session.get('grid_limit')+100);
     }
-})
+});
